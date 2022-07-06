@@ -43,3 +43,22 @@ Topic是ROS中的一种**异步**通信方式，通过“发布-订阅（Publish
     ```
         rate.sleep()
     ```
+## 订阅者（Subscriber）
+1. 定义回调函数，当订阅者订阅的 topic 发布了 msg 时，立即调用回调函数：
+    ```
+    def poseCallback(msg):
+      rospy.loginfo("Turtle pose: x:%0.6f, y:%0.6f", msg.x, msg.y)
+    ```
+3. 初始化 ROS 节点
+    ```
+    def pose_subscriber():
+      rospy.init_node("pose_subscriber", anonymous=True)
+    ```
+2. 创建 Subscriber
+    ```
+      rospy.Subscriber("/turtle1/pose", Pose, poseCallback)
+    ```
+3. 循环等待回调函数
+    ```
+      rospy.spin()
+    ```
