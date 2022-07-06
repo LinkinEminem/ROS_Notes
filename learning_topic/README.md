@@ -96,14 +96,14 @@ Message 是 topic 内容中的数据类型，格式标准定义在`*.msg`中。
 #### 3. 在 CMakeLists.txt 中添加编译选项
 + 在 CMakeList.txt 里的 find_package 中加入功能包编译依赖
 
-![image](https://user-images.githubusercontent.com/45569291/177653141-9ad6914a-02bc-4c59-8fa9-f0514f69358a.png)
+   ![image](https://user-images.githubusercontent.com/45569291/177653141-9ad6914a-02bc-4c59-8fa9-f0514f69358a.png)
 
 + 将定义的 Person.msg 作为消息接口，针对它做编译
 
-![image](https://user-images.githubusercontent.com/45569291/177653173-a7c2adf3-6a1d-4e96-b0cf-b0227309bdf3.png)
+   ![image](https://user-images.githubusercontent.com/45569291/177653173-a7c2adf3-6a1d-4e96-b0cf-b0227309bdf3.png)
 
 + 指明编译此消息接口需要的 ROS 包
 
-![image](https://user-images.githubusercontent.com/45569291/177653200-194b5e64-4df0-4a1e-9454-bb6a767a3be9.png)
+   ![image](https://user-images.githubusercontent.com/45569291/177653200-194b5e64-4df0-4a1e-9454-bb6a767a3be9.png)
 
 返回工作根目录，执行编译操作后，可以在`/devel/lib/python2.7/dist-packages/learning_topic/msg`找到相对应的Python包。
