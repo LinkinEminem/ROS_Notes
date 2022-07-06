@@ -87,9 +87,7 @@ Message 是 topic 内容中的数据类型，格式标准定义在`*.msg`中。
   <exec_depend>message_runtime</exec_depend>
 ```
 
-![image](https://user-images.githubusercontent.com/45569291/177654566-8fa0c919-c75e-4d45-9b7b-face45d8c41d.png)
-
-<img style="width:45%;" src="https://user-images.githubusercontent.com/45569291/177653036-a666b9fc-b1ce-4736-bb45-094a61ee4717.png"/>
+![image](https://user-images.githubusercontent.com/45569291/177653036-a666b9fc-b1ce-4736-bb45-094a61ee4717.png)
 
 其中
    + `build_depend`为编译依赖，此处是一个会动态产生message的功能包
