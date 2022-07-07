@@ -88,8 +88,8 @@ Srv 是 service 服务中的数据格式，格式标准定义在`*.srv`中。
 
 + 将定义的 Person.srv 作为消息接口，针对它做编译
 
-   ![image](https://user-images.githubusercontent.com/45569291/177653173-a7c2adf3-6a1d-4e96-b0cf-b0227309bdf3.png)
-
+   ![image](https://user-images.githubusercontent.com/45569291/177813810-8c89d4e1-b243-4e01-a43c-ab5103a1ef07.png)
+   
 + 指明编译此消息接口需要的 ROS 包
 
    ![image](https://user-images.githubusercontent.com/45569291/177653200-194b5e64-4df0-4a1e-9454-bb6a767a3be9.png)
