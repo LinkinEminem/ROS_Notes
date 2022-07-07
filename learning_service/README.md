@@ -92,6 +92,6 @@ Srv 是 service 服务中的数据格式，格式标准定义在`*.srv`中。
    
 + 指明编译此消息接口需要的 ROS 包
 
-   ![image](https://user-images.githubusercontent.com/45569291/177653200-194b5e64-4df0-4a1e-9454-bb6a767a3be9.png)
+   ![image](https://user-images.githubusercontent.com/45569291/177814151-8bb8e461-f1ec-4ed9-8052-f2e0e4401ddc.png)
 
-返回工作根目录，执行编译操作后，可以在`/devel/lib/python2.7/dist-packages/learning_topic/msg`找到相对应的Python包。
+返回工作根目录，执行编译操作后，可以在`/devel/lib/python2.7/dist-packages/learning_service/srv`找到相对应的Python包。
