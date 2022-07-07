@@ -9,69 +9,67 @@ Servie 是 ROS 中的一种**同步**通信方式，通过“请求-回复（Req
 
 ## 客户端（Client）
 + 初始化 ROS 节点
++ 使用阻塞性函数，等待名为 spawn 的 service
     ```
-    def turtle_spawn():
-      rospy.init_node('turtle_spawn')
+    import rospy
+    from service_demo.srv import *
+    
+    
+    def client_srv():
+      rospy.init_node('greetings_client')
+      rospy.wait_for_service('greetings')  # 阻塞直到名为"greetings"的Service可用
     ```
-+ 使用阻塞性函数，等待名为Spawn的服务
-    ```
-      rospy.wait_for_service('/spawn')
-    ```
-+ 发现名为spawn的服务端后，创建一个客户端，向服务端发送服务请求
++ 发现名为 spawn 的 Service 后，创建一个 Client ，向 Server 发送 Service 请求
++ 使用异常处理，请求 Service 调用，输入请求数据
     ```
       try:
-        add_turtle = rospy.ServiceProxy('/spawn', Spawn)
-    ```
-+ 请求服务调用，输入请求数据
-    ```
-        response = add_turtle(2.0, 2.0, 0.0, "turtle2")
+        greetings_client = rospy.ServiceProxy('greetings', Greeting)  # 创建代理连接，传入Service名和服务类型
+        response = greetings_client('Liu', 23)  # 传入Server需要的输入
+        rospy.loginfo("Message From Server: %s" % response.feedback)
         return response.name
-    ```
-+ 异常处理
-    ```
       except rospy.ServiceException as e:
-        print("Service call failed: %s" % e)
+        rospy.logwarn("Service call failed: %s" % e)
     ```
 
 ## 服务端（Server）
-+ 定义回调函数，当订阅者订阅的 topic 发布了 msg 时，立即调用回调函数：
-    ```
-    def poseCallback(msg):
-      rospy.loginfo("Turtle pose: x:%0.6f, y:%0.6f", msg.x, msg.y)
-    ```
 + 初始化 ROS 节点
++ 创建一个 Service
     ```
-    def pose_subscriber():
-      rospy.init_node("pose_subscriber", anonymous=True)
-    ```
-+ 创建 Subscriber
-    ```
-      rospy.Subscriber("/turtle1/pose", Pose, poseCallback)
-    ```
-+ 循环等待回调函数
-    ```
+    def server_srv():
+      rospy.init_node("greetings_client", anonymous=True)
+      s = rospy.Service('greetings', Greeting, handle_function)  # service_name, service_type, handle function
+      rospy.loginfo("Ready to handle the request.")
       rospy.spin()
     ```
-## Topic 消息（Message）的格式定义与使用
-Message 是 topic 内容中的数据类型，格式标准定义在`*.msg`中。
-#### 1. 定义 msg 文件
-+ 首先，新建`msg`文件夹，并使用`touch`命令新建扩展名为`.msg`的文件
++ 定义handle function
+    ```
+    def handle_function(req):
+      rospy.loginfo("Request from ", req.name, "with age ", req.age)
+      return GreetingResponse( "Hi %s, I'm server!" % req.name)
+    ```
+## Service 服务数据的格式定义与使用
+Srv 是 service 服务中的数据格式，格式标准定义在`*.srv`中。
+#### 1. 定义 srv 文件
++ 首先，新建`srv`文件夹，并使用`touch`命令新建扩展名为`.srv`的文件
    ```
-   mkdir msg
-   touch Person.msg
+   mkdir srv
+   touch Person.srv
    ```
 + 在文件中写入自定义的消息类型：
    ```
-   string name
-   uint8 gender
-   uint8 age
-   
-   uint8 unknown = 0
-   uint8 male = 1
-   uint8 female = 2
+  string name
+  uint8 sex
+  uint8 age
+  
+  uint8 unknown = 0
+  uint8 male = 1
+  uint8 female = 2
+  ---
+  string result
    ```
+   以`---`为界，上面是`request`的内容，下面是`response`结果
 #### 2. 在 package.xml 中添加功能包依赖
-打开 package.xml 文件，在指定位置加入：
+与增加`message`类似，打开 package.xml 文件，在指定位置加入：
 ```
   <build_depend>message_generation</build_depend>
   <exec_depend>message_runtime</exec_depend>
@@ -88,7 +86,7 @@ Message 是 topic 内容中的数据类型，格式标准定义在`*.msg`中。
 
    ![image](https://user-images.githubusercontent.com/45569291/177653141-9ad6914a-02bc-4c59-8fa9-f0514f69358a.png)
 
-+ 将定义的 Person.msg 作为消息接口，针对它做编译
++ 将定义的 Person.srv 作为消息接口，针对它做编译
 
    ![image](https://user-images.githubusercontent.com/45569291/177653173-a7c2adf3-6a1d-4e96-b0cf-b0227309bdf3.png)
 
